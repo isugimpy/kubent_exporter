@@ -8,5 +8,6 @@ USER root
 COPY requirements.txt /app
 RUN pip install -r /app/requirements.txt
 COPY run.py /app
+COPY run.sh /app
 USER runner
-ENTRYPOINT ["/usr/bin/dumb-init", "python", "/app/run.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "bash", "/app/run.sh"]
