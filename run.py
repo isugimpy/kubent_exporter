@@ -41,6 +41,7 @@ def update_metrics():
         for k, v in i.items():
             tmp[k.lower()] = v
         g.labels(**tmp).set(1)
+    print("Successfully ran and updated metrics.")
 
 class GracefulKiller:
     kill_now = False

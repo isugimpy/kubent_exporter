@@ -23,17 +23,17 @@ spec:
     spec:
       containers:
         - name: kubent-exporter
-          image: ghcr.io/isugimpy/kubent-exporter:0.1.0
+          image: ghcr.io/isugimpy/kubent_exporter:0.0.3
           ports:
             - containerPort: 8000
-							name: exporterport
+              name: exporterport
           resources:
-            request:
-              cpu: 50m
-              memory: 128Mi
-            limit:
-              cpu: 50m
-              memory: 128Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
@@ -46,3 +46,25 @@ spec:
       app: kubent-exporter
   podMetricsEndpoints:
     - port: exporterport
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubent-exporter
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubent-exporter
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: kubent-exporter
+roleRef:
+  kind: ClusterRole
+  name: kubent-exporter
+  apiGroup: rbac.authorization.k8s.io
