@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: kubent-exporter
-          image: ghcr.io/isugimpy/kubent_exporter:0.0.4
+          image: ghcr.io/isugimpy/kubent_exporter:0.0.5
           ports:
             - containerPort: 8000
               name: exporterport
