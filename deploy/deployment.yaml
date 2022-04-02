@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kubent-exporter
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubent-exporter
+  namespace: kubent-exporter
+  labels:
+    app: kubent-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubent-exporter
+  template:
+    metadata:
+      labels:
+        app: kubent-exporter
+    spec:
+      containers:
+        - name: kubent-exporter
+          image: ghcr.io/isugimpy/kubent-exporter:0.1.0
+          ports:
+            - containerPort: 8000
+							name: exporterport
+          resources:
+            request:
+              cpu: 50m
+              memory: 128Mi
+            limit:
+              cpu: 50m
+              memory: 128Mi
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: kubent-exporter
+  namespace: kubent-exporter
+spec:
+  selector:
+    matchLabels:
+      app: kubent-exporter
+  podMetricsEndpoints:
+    - port: exporterport

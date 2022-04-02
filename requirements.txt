@@ -1,0 +1,2 @@
+prometheus-client==0.13.1
+schedule==1.1.0
