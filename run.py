@@ -36,6 +36,8 @@ def update_metrics():
 
     data = json.loads(result.stdout)
 
+    g.clear()
+
     for i in data:
         tmp = {}
         for k, v in i.items():
